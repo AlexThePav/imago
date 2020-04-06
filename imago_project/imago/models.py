@@ -1,17 +1,17 @@
 from django.db import models
 
-# Create your models here.
-class Show(models.Model):
-  title = models.CharField(max_length=200)
-  description = models.TextField()
-  poster = models.ImageField() # read more on this
-  members = models.ManyToManyField(Member)
-  awards = models.ManyToManyField(Award)
-  venues = models.ManyToManyField(Venue)
+class Venue(models.Model):
+  name = models.CharField(max_length=200, unique=True)
+  location = models.URLField()
 
   def __str__(self):
-      return self.title
-  
+      return self.name
+
+class Award(models.Model):
+  name = models.CharField(max_length=200, unique=True)
+
+  def __str__(self):
+      return self.name
 
 class Member(models.Model):
   name = models.CharField(max_length=200, unique=True)
@@ -20,10 +20,20 @@ class Member(models.Model):
 
   def __str__(self):
       return self.name
-  
-class Award(models.Model):
-  name = models.CharField(max_length=200, unique=True)
 
-class Venue(models.Model):
-  name = models.CharField(max_length=200, unique=True)
-  location = models.URLField()
+class Show(models.Model):
+  title = models.CharField(max_length=200)
+  description = models.TextField()
+  # poster = models.ImageField() # need to install Pillow
+  members = models.ManyToManyField(Member)
+  awards = models.ManyToManyField(Award)
+  venues = models.ManyToManyField(Venue)
+
+  def __str__(self):
+      return self.title
+  
+
+
+  
+
+
