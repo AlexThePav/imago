@@ -123,3 +123,10 @@ USE_TZ = True
 # https://docs.djangoproject.com/en/3.0/howto/static-files/
 
 STATIC_URL = '/static/'
+
+# Custom user model
+AUTH_USER_MODEL = 'imago.Member'
+
+# redirect links for login and logout
+LOGIN_REDIRECT_URL = "imago:index"
+LOGOUT_REDIRECT_URL = "imago:index"

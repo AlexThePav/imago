@@ -1,0 +1,32 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <link rel="stylesheet" href="style.css">
+    <title>Imago | {% block title %}In block{% endblock %}</title>
+</head>
+
+<body>
+    <div id="container" style="margin: 0 10% 0 10%;">
+        <div id="topbar">
+            <h1>IMAGO</h1>
+        </div>
+
+        <div id="sidebar">
+            {% block sidebar %}
+            <ul>
+                <li><a href="{% url 'imago:index' %}">Home</a></li>
+                <li><a href="{% url 'imago:members'%}">Members</a></li>
+                <li><a href="{% url 'imago:plays'%}">Plays</a></li>
+                <li><a href="{% url 'imago:contact' %}">Contact</a></li>
+                <li><a href="{% url 'imago:about' %}">About</a></li>
+            </ul>
+            {% endblock %}
+        </div>
+
+        <div id="content">
+            {% block content %}{% endblock %}
+        </div>
+    </div>
+    
+</body>
+</html>
