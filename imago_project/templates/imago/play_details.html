@@ -1,5 +1,27 @@
 {% extends 'base.html' %}
-{% block title %} {{ title }} {% endblock title %}
+{% block page_title %} {{ play.title }} {% endblock page_title %}
+{% block page_header %} {{ play.title }} {% endblock page_header %}
 {% block content %}
-<p>I don't know that! Auuuuuuuugh! I didn't! Yes? Hey! I've got a great idea. Why doesn't Launcelot go? Would it help to confuse it if we run away more? Oh, great. No! Uh, here, here in this forest. I am. I never!</p>
+<p>Description: {{ play.description }}</p>
+<p>Cast: 
+    <ul>
+        {% for member in play.members.all %}
+            <li>{{ member.get_full_name }}</li>
+        {% endfor %}
+    </ul>
+</p>
+<p>Awards:
+    <ul>
+        {% for award in play.awards.all %}
+            <li>{{ award.name }}</li>
+        {% endfor %}
+    </ul>
+</p>
+<p>Venues:
+    <ul>
+        {% for venue in play.venues.all %}
+            <li><a href="{{ venue.location }}">{{ venue.name }}</a></li>
+        {% endfor %}
+    </ul>
+</p>
 {% endblock content %}

@@ -13,7 +13,7 @@ class IndexView(generic.TemplateView):
 
     def get(self, request, *args, **kwargs):
         context = locals()
-        context['title'] = "Home"
+        context['page_title'] = "Home"
         return render(request, self.template_name, context)
 
 class ContactView(generic.TemplateView):
@@ -21,7 +21,7 @@ class ContactView(generic.TemplateView):
 
     def get(self, request, *args, **kwargs):
         context = locals()
-        context['title'] = "Contact"
+        context['page_title'] = "Contact"
         return render(request, self.template_name, context)
 
 class AboutView(generic.TemplateView):
@@ -29,41 +29,41 @@ class AboutView(generic.TemplateView):
 
     def get(self, request, *args, **kwargs):
         context = locals()
-        context['title'] = "About"
+        context['page_title'] = "About"
         return render(request, self.template_name, context)
 
-class MembersView(generic.TemplateView):
+class MembersView(generic.ListView):
+
+    model = Member
     template_name = 'imago/members.html'
 
-    def get(self, request, *args, **kwargs):
-        context = locals()
-        context['title'] = "Members"
-        return render(request, self.template_name, context)
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context['page_title'] = 'All members'
+        context['all_members_list'] = Member.objects.order_by('first_name')[::]
+        return context
 
-class MemberDetailView(generic.TemplateView):
+
+class MemberDetailView(generic.DetailView):
+
+    model = Member
     template_name = 'imago/member_details.html'
 
-    def get(self, request, *args, **kwargs):
-        context = locals()
-        context['title'] = "Member"
-        return render(request, self.template_name, context)
+class PlaysView(generic.ListView):
 
-class PlaysView(generic.TemplateView):
+    model = Play
     template_name = 'imago/plays.html'
 
-    def get(self, request, *args, **kwargs):
-        context = locals()
-        context['title'] = "Plays"
-        return render(request, self.template_name, context)
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context['page_title'] = 'All plays'
+        context['all_plays_list'] = Play.objects.order_by('title')[::]
+        return context
 
-class PlayDetailView(generic.TemplateView):
+class PlayDetailView(generic.DetailView):
+
     template_name = 'imago/play_details.html'
-
-
-    def get(self, request, *args, **kwargs):
-        context = locals()
-        context['title'] = "Play Details"
-        return render(request, self.template_name, context)
+    model = Play
 
 class SignUpView(CreateView):
     form_class = MemberCreationForm

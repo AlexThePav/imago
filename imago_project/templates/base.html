@@ -2,17 +2,29 @@
 <html lang="en">
 <head>
     <link rel="stylesheet" href="style.css">
-    <title>Imago | {% block title %}In block{% endblock %}</title>
+    <title>Imago | {% block page_title %}In block{% endblock %}</title>
 </head>
 
 <body>
     <div id="container" style="margin: 0 10% 0 10%;">
         <div id="topbar">
             <h1>IMAGO</h1>
+            <h2>{% block page_header %} Current Page{% endblock page_header %}</h2>
         </div>
 
-        <div id="sidebar">
-            {% block sidebar %}
+        <div id="userbar" style="float: right;">
+            {% if user.is_authenticated %}
+                <h3>{{ user.username }}</h3>
+                <p><a href="{% url 'logout' %}">Log out</a></p>
+            {% else %}
+                <p>You are not logged in</p>
+                <a href="{% url 'login' %}">Log in</a>
+                <a href="{% url 'signup' %}">Sign up</a>
+            {% endif %}
+        </div>
+
+        <div id="navbar">
+            {% block navbar %}
             <ul>
                 <li><a href="{% url 'imago:index' %}">Home</a></li>
                 <li><a href="{% url 'imago:members'%}">Members</a></li>

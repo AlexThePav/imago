@@ -32,12 +32,11 @@ class Member(AbstractUser):
     # canAddShow = models.BooleanField(default=False)
     slug = models.SlugField(null=False, unique=True)
 
-    def get_full_name(self):
-        full_name = "%s %s" % (self.first_name, self.last_name)
-        return full_name
-
     def get_absolute_url(self):
         return reverse("member_detail", kwargs={"slug": self.slug})
+    
+    def get_full_name(self):
+        return "%s %s" % (self.first_name, self.last_name)
 
     def __str__(self):
         return self.username
