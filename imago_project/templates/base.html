@@ -1,44 +1,74 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <link rel="stylesheet" href="style.css">
+    {% load static %}
+    <link rel="shortcut icon" href="{% static "imago/img/pixel-butterfly.jpg"%}" type="image/x-icon">
+    <link rel="stylesheet" href="{% static 'imago/css/main.css' %}">
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css" integrity="sha384-Vkoo8x4CGsO3+Hhxv8T/Q5PaXtkKtu6ug5TOeNV6gBiFeWPGFN9MuhOf23Q9Ifjh" crossorigin="anonymous">
     <title>Imago | {% block page_title %}In block{% endblock %}</title>
 </head>
 
 <body>
-    <div id="container" style="margin: 0 10% 0 10%;">
-        <div id="topbar">
-            <h1>IMAGO</h1>
-            <h2>{% block page_header %} Current Page{% endblock page_header %}</h2>
-        </div>
+    <div id="back-container" class="h-100">
+        <nav class="navbar navbar-expand-lg navbar-dark bg-dark sticky-top">
+            <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navToggler" aria-controls="navbarTogglerDemo02" aria-expanded="false" aria-label="Toggle navigation">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            <a href="{% url 'imago:index' %}" class="navbar-brand">
+                <img src="{% static "imago/img/pixel-butterfly.jpg" %}" alt="." width="40" height="40" class="d-inline-block align-top">
+            </a>
+            <div id="navToggler" class="collapse navbar-collapse">
+                <div class="navbar-nav" id="navbar-nav">
+                    <div class="nav-item">
+                        <a class="nav-link" href="{% url 'imago:members' %}">Members<span class="sr-only">(current)</span></a>
+                    </div>
+                    <div class="nav-item">
+                        <a class="nav-link" href="{% url 'imago:plays' %}">Plays<span class="sr-only">(current)</span></a>
+                    </div>
+                    <div class="nav-item">
+                        <a class="nav-link" href="{% url 'imago:contact' %}">Contact<span class="sr-only">(current)</span></a>
+                    </div>
+                    <div class="nav-item">
+                        <a class="nav-link" href="{% url 'imago:about' %}">About<span class="sr-only">(current)</span></a>
+                    </div>
+                </div>
+                
+                <form class="form-inline my-2 my-lg-1 centered">
+                    <input class="form-control mr-sm-2" type="search" placeholder="Search" aria-label="Search">
+                    <button class="btn btn-outline-light my-2 my-sm-0" type="submit">Search</button>
+                </form>
+                <div id="userbar">
+                    {% if user.is_authenticated %}
+                        <span id="username">{{ user.username }}</span><br>
+                        <a href="{% url 'logout' %}">Log out</a>
+                    {% else %}
+                        <a href="{% url 'login' %}">Log in</a><span> | </span>
+                        <a href="{% url 'signup' %}">Sign up</a>
+                    {% endif %}
+                </div>
+            </div>
+        </nav>
+        <div id="main-container">
+            
+            <div id="topbar">
+                <h2>{% block page_header %}{% endblock page_header %}</h2>
+            </div>
 
-        <div id="userbar" style="float: right;">
-            {% if user.is_authenticated %}
-                <h3>{{ user.username }}</h3>
-                <p><a href="{% url 'logout' %}">Log out</a></p>
-            {% else %}
-                <p>You are not logged in</p>
-                <a href="{% url 'login' %}">Log in</a>
-                <a href="{% url 'signup' %}">Sign up</a>
-            {% endif %}
-        </div>
+            <div id="content">
+                {% block content %}{% endblock %}
+            </div>
 
-        <div id="navbar">
-            {% block navbar %}
-            <ul>
-                <li><a href="{% url 'imago:index' %}">Home</a></li>
-                <li><a href="{% url 'imago:members'%}">Members</a></li>
-                <li><a href="{% url 'imago:plays'%}">Plays</a></li>
-                <li><a href="{% url 'imago:contact' %}">Contact</a></li>
-                <li><a href="{% url 'imago:about' %}">About</a></li>
-            </ul>
-            {% endblock %}
         </div>
-
-        <div id="content">
-            {% block content %}{% endblock %}
+        <div id="footer-container" class="fixed-bottom">
+            <div id="footer-content">
+                <span>Footer content goes here</span>
+            </div>
         </div>
     </div>
     
+    <script src="https://code.jquery.com/jquery-3.4.1.slim.min.js" integrity="sha384-J6qa4849blE2+poT4WnyKhv5vZF5SrPo0iEjwBvKU7imGFAV0wwj1yYfoRSJoZ+n" crossorigin="anonymous"></script>
+    <script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.0/dist/umd/popper.min.js" integrity="sha384-Q6E9RHvbIyZFJoft+2mJbHaEWldlvI9IOYy5n3zV9zzTtmI3UksdQRVvoxMfooAo" crossorigin="anonymous"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/js/bootstrap.min.js" integrity="sha384-wfSDF2E50Y2D1uUdj0O3uMBJnjuUD4Ih7YwaYd1iqfktj0Uod8GCExl3Og8ifwB6" crossorigin="anonymous"></script>
+    <script src="{% static 'imago/js/main.js' %}"></script>
 </body>
 </html>
