@@ -5,6 +5,7 @@ from django.contrib.auth.models import AbstractUser, BaseUserManager
 from django.template.defaultfilters import slugify
 from django.utils.translation import ugettext_lazy as _
 
+
 class Venue(models.Model):
     name = models.CharField(max_length=200, unique=True)
     location = models.URLField()
@@ -12,24 +13,25 @@ class Venue(models.Model):
     def __str__(self):
         return self.name
 
+
 class Award(models.Model):
     name = models.CharField(max_length=200, unique=True)
 
     def __str__(self):
         return self.name
 
+
 class Member(AbstractUser):
     first_name = models.CharField(max_length=100)
     last_name = models.CharField(max_length=100)
     username = models.CharField(max_length=100, unique=True)
     description = models.TextField()
+    isImago = models.BooleanField(default=False)
     #   date_of_birth = models.DateTimeField(auto_now=False)
     email = models.EmailField(_('email address'), unique=True)
     facebook = models.URLField()
     instagram = models.URLField()
     awards = models.ManyToManyField(Award)
-    # canAddMember = models.BooleanField(default=False)
-    # canAddShow = models.BooleanField(default=False)
     slug = models.SlugField(null=False, unique=True)
 
     def get_absolute_url(self):
@@ -69,3 +71,8 @@ class Play(models.Model):
         if not self.id:
             self.slug = slugify(self.title)
         super(Play, self).save(*args, **kwargs)
+
+    # class Meta:
+    #     permissions = [
+    #         ("can_add_play", "Can add play")
+    #     ]

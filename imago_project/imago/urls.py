@@ -9,5 +9,7 @@ urlpatterns = [
     path('members/', views.MembersView.as_view(), name='members'),
     path('members/<slug:slug>', views.MemberDetailView.as_view(), name='member_detail'),
     path('plays/', views.PlaysView.as_view(), name='plays'),
-    path('plays/<slug:slug>', views.PlayDetailView.as_view(), name='play_detail')
+    path('plays/<slug:slug>', views.PlayDetailView.as_view(), name='play_detail'),
+    path('add_play/',  views.NewPlayView.as_view(), name="new_play"),
+    path('edit_play/<slug:slug>', views.EditPlayView.as_view(), name="edit_play")
 ]

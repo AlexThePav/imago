@@ -32,20 +32,15 @@
                         <a class="nav-link" href="{% url 'imago:about' %}">About<span class="sr-only">(current)</span></a>
                     </div>
                 </div>
-                
-                <form class="form-inline my-2 my-lg-1 centered">
-                    <input class="form-control mr-sm-2" type="search" placeholder="Search" aria-label="Search">
-                    <button class="btn btn-outline-light my-2 my-sm-0" type="submit">Search</button>
-                </form>
-                <div id="userbar">
-                    {% if user.is_authenticated %}
-                        <span id="username">{{ user.username }}</span><br>
-                        <a href="{% url 'logout' %}">Log out</a>
-                    {% else %}
-                        <a href="{% url 'login' %}">Log in</a><span> | </span>
-                        <a href="{% url 'signup' %}">Sign up</a>
-                    {% endif %}
-                </div>
+            </div>
+            <div id="userbar">
+                {% if user.is_authenticated %}
+                    <span id="username">{{ user.username }}</span><br>
+                    <a href="{% url 'logout' %}">Log out</a>
+                {% else %}
+                    <a href="{% url 'login' %}">Log in</a><span> | </span>
+                    <a href="{% url 'signup' %}">Sign up</a>
+                {% endif %}
             </div>
         </nav>
         <div id="main-container">

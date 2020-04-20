@@ -5,10 +5,21 @@
 <div>
     <ul>
         {% for play in all_plays_list %}
-            <li><a href="{% url 'imago:play_detail' play.slug%}">{{ play.title }}</a></li>
+            <li>
+                <a href="{% url 'imago:play_detail' play.slug%}">{{ play.title }}</a>
+                {% if perms.imago.can_change_play %}
+                    <a href="{% url 'imago:edit_play' play.slug %}">Edit</a>
+                {% endif %}
+            </li>
         {% empty %}
             <li>No plays yet.</li>
         {% endfor %}
     </ul>
+    {% if perms.imago.can_add_play %}
+        <p>
+            <a href="{% url 'imago:new_play' %}">Add play</a>
+        </p>
+    {% endif %}
+    
 </div>
 {% endblock content %}
