@@ -9,6 +9,7 @@
                 <a href="{% url 'imago:play_detail' play.slug%}">{{ play.title }}</a>
                 {% if perms.imago.can_change_play %}
                     <a href="{% url 'imago:edit_play' play.slug %}">Edit</a>
+                    <a href="{% url 'imago:new_image'%}">Add Image</a>
                 {% endif %}
             </li>
         {% empty %}

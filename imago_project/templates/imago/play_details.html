@@ -2,6 +2,14 @@
 {% block page_title %} {{ play.title }} {% endblock page_title %}
 {% block page_header %} {{ play.title }} {% endblock page_header %}
 {% block content %}
+<div id="poster">
+    <img src="{{ play.cover.url }}" alt="{{ play.title }}">
+</div>
+<div id="gallery">
+    {% for image in play.images.all %}
+        <img src=" {{ play.image.url }} " alt="Image">
+    {% endfor %}
+</div>
 <p>Description: {{ play.description }}</p>
 <p>Cast: 
     <ul>

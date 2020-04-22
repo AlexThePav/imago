@@ -1,12 +1,14 @@
 from django import template
-from django.http import request, HttpResponseForbidden
+from django.http import request, HttpResponseForbidden, HttpResponseRedirect
 from django.urls import reverse_lazy
 from django.views import generic
 from django.views.generic.edit import CreateView, UpdateView
 from django.shortcuts import render, reverse
+from django.forms import modelformset_factory
+from django.contrib import messages
 
-from .forms import MemberCreationForm, PlayCreationForm
-from .models import Award, Member, Play, Venue
+from .forms import MemberCreationForm, PlayCreationForm, ImageForm
+from .models import Award, Member, Play, Venue, Image
 
 # index will become generic.ListView
 class IndexView(generic.TemplateView):
@@ -88,8 +90,29 @@ class NewPlayView(CreateView):
             return HttpResponseForbidden()
         return super(NewPlayView, self).dispatch(request, *args, **kwargs)
 
+
 class EditPlayView(UpdateView):
     model = Play
-    fields = ['title', 'description', 'members', 'venues', 'awards']
+    fields = ['title', 'cover', 'description', 'members', 'venues', 'awards']
     template_name = 'edit_play.html'
 
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context['page_title'] = "Edit play"
+        return context
+
+
+class NewImageView(CreateView):
+    form_class = ImageForm
+    success_url = reverse_lazy('imago:plays')
+    template_name = 'imago/new_image.html'
+
+    def dispatch(self, request, *args, **kwargs):
+        if not request.user.has_perm('imago.can_add_play'):
+            return HttpResponseForbidden()
+        return super(NewImageView, self).dispatch(request, *args, **kwargs)
+    
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context['page_title'] = "Add image"
+        return context

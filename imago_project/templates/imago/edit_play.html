@@ -2,7 +2,6 @@
 {% block page_title %} {{ page_title }} {% endblock page_title %}
 {% block page_header %} {{ page_title }} {% endblock page_header %}
 {% block content %}
-<h2>Add play</h2>
 <form method="post">
   {% csrf_token %}
   {{ form.as_ul }}

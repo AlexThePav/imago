@@ -11,5 +11,6 @@ urlpatterns = [
     path('plays/', views.PlaysView.as_view(), name='plays'),
     path('plays/<slug:slug>', views.PlayDetailView.as_view(), name='play_detail'),
     path('add_play/',  views.NewPlayView.as_view(), name="new_play"),
-    path('edit_play/<slug:slug>', views.EditPlayView.as_view(), name="edit_play")
+    path('edit_play/<slug:slug>', views.EditPlayView.as_view(), name="edit_play"),
+    path('add_image/', views.NewImageView.as_view(), name='new_image')
 ]

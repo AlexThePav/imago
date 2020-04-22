@@ -55,13 +55,16 @@ class Member(AbstractUser):
 class Play(models.Model):
     title = models.CharField(max_length=200, unique=True)
     description = models.TextField()
-    # poster = models.ImageField() # need to install Pillow
+    cover = models.ImageField(upload_to='images/', default=None, null=True, blank=True)
     members = models.ManyToManyField(get_user_model())
     awards = models.ManyToManyField(Award)
     venues = models.ManyToManyField(Venue)
     slug = models.SlugField(null=False, unique=True)
 
     def __str__(self):
+        return self.title
+
+    def getTitle(self):
         return self.title
 
     def get_absolute_url(self):
@@ -72,7 +75,11 @@ class Play(models.Model):
             self.slug = slugify(self.title)
         super(Play, self).save(*args, **kwargs)
 
-    # class Meta:
-    #     permissions = [
-    #         ("can_add_play", "Can add play")
-    #     ]
+
+def get_play_image_folder_name(instance):
+        return "images/%s" % (instance.title)
+
+
+class Image(models.Model):
+    play = models.ForeignKey('Play', on_delete=models.CASCADE)
+    image = models.ImageField(upload_to=get_play_image_folder_name, blank=True, null=True)
