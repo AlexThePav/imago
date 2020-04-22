@@ -64,9 +64,6 @@ class Play(models.Model):
     def __str__(self):
         return self.title
 
-    def getTitle(self):
-        return self.title
-
     def get_absolute_url(self):
         return reverse("play_detail", kwargs={"slug": self.slug})
     
