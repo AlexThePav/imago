@@ -7,8 +7,8 @@ from django.shortcuts import render, reverse
 from django.forms import modelformset_factory
 from django.contrib import messages
 
-from .forms import MemberCreationForm, PlayCreationForm, ImageForm
-from .models import Award, Member, Play, Venue, Image
+from .forms import MemberCreationForm, PlayCreationForm
+from .models import Award, Member, Play, Venue
 
 # index will become generic.ListView
 class IndexView(generic.TemplateView):
@@ -99,20 +99,4 @@ class EditPlayView(UpdateView):
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
         context['page_title'] = "Edit play"
-        return context
-
-
-class NewImageView(CreateView):
-    form_class = ImageForm
-    success_url = reverse_lazy('imago:plays')
-    template_name = 'imago/new_image.html'
-
-    def dispatch(self, request, *args, **kwargs):
-        if not request.user.has_perm('imago.can_add_play'):
-            return HttpResponseForbidden()
-        return super(NewImageView, self).dispatch(request, *args, **kwargs)
-    
-    def get_context_data(self, **kwargs):
-        context = super().get_context_data(**kwargs)
-        context['page_title'] = "Add image"
         return context

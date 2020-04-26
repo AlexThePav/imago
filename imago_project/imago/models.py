@@ -4,6 +4,7 @@ from django.contrib.auth import get_user_model
 from django.contrib.auth.models import AbstractUser, BaseUserManager
 from django.template.defaultfilters import slugify
 from django.utils.translation import ugettext_lazy as _
+from photologue.models import Gallery, Photo
 
 
 class Venue(models.Model):
@@ -55,7 +56,7 @@ class Member(AbstractUser):
 class Play(models.Model):
     title = models.CharField(max_length=200, unique=True)
     description = models.TextField()
-    cover = models.ImageField(upload_to='images/', default=None, null=True, blank=True)
+    gallery = models.OneToOneField(Gallery, on_delete=models.SET_NULL, null=True)
     members = models.ManyToManyField(get_user_model())
     awards = models.ManyToManyField(Award)
     venues = models.ManyToManyField(Venue)
@@ -71,12 +72,3 @@ class Play(models.Model):
         if not self.id:
             self.slug = slugify(self.title)
         super(Play, self).save(*args, **kwargs)
-
-
-def get_play_image_folder_name(instance):
-        return "images/%s" % (instance.title)
-
-
-class Image(models.Model):
-    play = models.ForeignKey('Play', on_delete=models.CASCADE)
-    image = models.ImageField(upload_to=get_play_image_folder_name, blank=True, null=True)

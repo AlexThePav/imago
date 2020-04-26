@@ -8,7 +8,7 @@ verify_ssl = true
 [packages]
 django = "*"
 pillow = "*"
-django-tables2 = "*"
+django-photologue = "*"
 
 [requires]
 python_version = "3.8"

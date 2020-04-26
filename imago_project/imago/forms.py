@@ -1,6 +1,6 @@
 from django import forms
 from django.contrib.auth.forms import UserCreationForm, UserChangeForm
-from .models import Member, Play, Image
+from .models import Member, Play
 
 class MemberCreationForm(UserCreationForm):
 
@@ -20,12 +20,4 @@ class PlayCreationForm(forms.ModelForm):
     
     class Meta:
         model = Play
-        fields = ('title', 'cover', 'description', 'members', 'awards', 'venues')
-
-
-class ImageForm(forms.ModelForm):
-    image = forms.ImageField(label='Image')
-
-    class Meta:
-        model = Image
-        fields = ('play', 'image',)
+        fields = ('title', 'description', 'members', 'awards', 'venues')

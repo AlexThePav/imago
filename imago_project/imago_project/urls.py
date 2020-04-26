@@ -18,7 +18,14 @@ from django.urls import path, include
 from django.conf import settings
 from django.conf.urls.static import static
 
+from photologue.sitemaps import GallerySitemap, PhotoSitemap
+
 from imago import views
+
+sitemaps = {
+    'photologue_galleries': GallerySitemap,
+    'photologue_photos': PhotoSitemap
+}
 
 urlpatterns = [
     path('admin/', admin.site.urls),
@@ -26,6 +33,10 @@ urlpatterns = [
     path('users/', include('django.contrib.auth.urls')),
     path('signup/', views.SignUpView.as_view(), name='signup')
 ] + static(settings.STATIC_URL, document_root=settings.STATIC_ROOT)
+
+urlpatterns += [
+    path('photologue/', include('photologue.urls', namespace='photologue')),
+]
 
 if settings.DEBUG: # new
     urlpatterns += static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)

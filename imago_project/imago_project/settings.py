@@ -41,8 +41,11 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
-    'django_tables2',
+    'django.contrib.sites',
+    'django.contrib.sitemaps',
     'imago',
+    'photologue',
+    'sortedm2m',
 ]
 
 MIDDLEWARE = [
@@ -142,3 +145,6 @@ AUTH_USER_MODEL = 'imago.Member'
 # redirect links for login and logout
 LOGIN_REDIRECT_URL = "imago:index"
 LOGOUT_REDIRECT_URL = "imago:index"
+
+# for django.contrib.sites
+SITE_ID = 1

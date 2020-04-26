@@ -3,10 +3,7 @@ from django.contrib.auth import get_user_model
 from django.contrib.auth.admin import UserAdmin
 
 from .forms import MemberCreationForm, MemberChangeForm
-from .models import Play, Member, Award, Venue, Image
-
-class ImageAdmin(admin.ModelAdmin):
-    list_display = ('play',)
+from .models import Play, Member, Award, Venue
 
 class VenueAndAwardAdmin(admin.ModelAdmin):
     list_display = ('name',)
@@ -25,4 +22,3 @@ admin.site.register(Play, PlayAdmin)
 admin.site.register(Member, MemberAdmin)
 admin.site.register(Venue, VenueAndAwardAdmin)
 admin.site.register(Award, VenueAndAwardAdmin)
-admin.site.register(Image, ImageAdmin)
