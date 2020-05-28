@@ -43,7 +43,10 @@ INSTALLED_APPS = [
     'django.contrib.staticfiles',
     'django.contrib.sites',
     'django.contrib.sitemaps',
+    # Internal
     'imago',
+    # Third Party
+    'rest_framework',
     'photologue',
     'sortedm2m',
 ]
@@ -148,3 +151,20 @@ LOGOUT_REDIRECT_URL = "imago:index"
 
 # for django.contrib.sites
 SITE_ID = 1
+
+# rest framework
+DEFAULT_RENDERER_CLASSES = [
+    'rest_framework.renderers.JSONRenderer',
+]
+
+if DEBUG:
+    DEFAULT_RENDERER_CLASSES += [
+        'rest_framework.renderers.BrowsableAPIRenderer',
+    ]
+
+REST_FRAMEWORK = {
+    'DEFAULT_AUTHENTICATION_CLASSES': [
+        'rest_framework.authentication.SessionAuthentication'
+    ],
+    'DEFAULT_RENDERER_CLASSES': DEFAULT_RENDERER_CLASSES
+}

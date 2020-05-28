@@ -11,14 +11,14 @@ class Venue(models.Model):
     name = models.CharField(max_length=200, unique=True)
     location = models.URLField()
 
-    def __str__(self):
+    def __repr__(self):
         return self.name
 
 
 class Award(models.Model):
     name = models.CharField(max_length=200, unique=True)
 
-    def __str__(self):
+    def __repr__(self):
         return self.name
 
 
@@ -28,7 +28,7 @@ class Member(AbstractUser):
     username = models.CharField(max_length=100, unique=True)
     description = models.TextField()
     isImago = models.BooleanField(default=False)
-    #   date_of_birth = models.DateTimeField(auto_now=False)
+    date_of_birth = models.DateTimeField(auto_now=False)
     email = models.EmailField(_('email address'), unique=True)
     facebook = models.URLField()
     instagram = models.URLField()
@@ -38,7 +38,7 @@ class Member(AbstractUser):
     def get_absolute_url(self):
         return reverse("member_detail", kwargs={"slug": self.slug})
     
-    def get_full_name(self):
+    def full_name(self):
         return "%s %s" % (self.first_name, self.last_name)
 
     def __str__(self):
