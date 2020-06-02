@@ -13,10 +13,8 @@ class PlayAdmin(admin.ModelAdmin):
     exclude = ('slug',)
 
 class MemberAdmin(UserAdmin):
-    add_form = MemberCreationForm
-    form = MemberChangeForm
     model = Member
-    list_display = ('username', 'email','first_name','last_name',)
+    list_display = ('username', 'email','first_name','last_name')
 
 admin.site.register(Play, PlayAdmin)
 admin.site.register(Member, MemberAdmin)

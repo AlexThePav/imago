@@ -10,9 +10,11 @@ from django.contrib import messages
 from rest_framework.decorators import api_view, authentication_classes, permission_classes
 from rest_framework.response import Response
 
+from photologue.models import Photo, Gallery
+
 from .forms import MemberCreationForm, PlayCreationForm
 from .models import Award, Member, Play, Venue
-from .serializers import PlaysListSerializer, PlayDetailSerializer, MembersListSerializer, MemberDetailSerializer, AwardSerializer, VenueSerializer
+from .serializers import PlaysListSerializer, PlayDetailSerializer, MembersListSerializer, MemberDetailSerializer, AwardSerializer, VenueSerializer, PhotoSerializer, GalleryListSerializer, GalleryDetailSerializer
 
 @api_view(['GET'])
 def play_list_view(request, *args, **kwargs):
@@ -59,6 +61,18 @@ def venue_detail_view(request, slug, *args, **kwargs):
     serializer = VenueSerializer(obj, context={'request':request})
     return Response(serializer.data, status=200)
 
+@api_view(['GET'])
+def photo_list_view(request, *args, **kwargs):
+    qs = Photo.objects.all()
+    serializer = PhotoSerializer(qs, many=True, context={'request':request})
+    return Response(serializer.data, status=200)
+    
+@api_view(['GET'])
+def gallery_list_view(request, *args, **kwargs):
+    qs = Gallery.objects.all()
+    serializer = GalleryListSerializer(qs, many=True, context={'request':request})
+    return Response(serializer.data, status=200)
+
 # index will become generic.ListView
 class IndexView(generic.TemplateView):
     template_name = 'imago/index.html'
@@ -86,41 +100,6 @@ class AboutView(generic.TemplateView):
         context['page_title'] = "About"
         return render(request, self.template_name, context)
 
-
-class MembersView(generic.ListView):
-
-    model = Member
-    template_name = 'imago/members.html'
-
-    def get_context_data(self, **kwargs):
-        context = super().get_context_data(**kwargs)
-        context['page_title'] = 'All members'
-        context['all_members_list'] = Member.objects.order_by('first_name')[::]
-        return context
-
-
-class MemberDetailView(generic.DetailView):
-
-    model = Member
-    template_name = 'imago/member_details.html'
-
-
-class PlaysView(generic.ListView):
-
-    model = Play
-    template_name = 'imago/plays.html'
-
-    def get_context_data(self, **kwargs):
-        context = super().get_context_data(**kwargs)
-        context['page_title'] = 'All plays'
-        context['all_plays_list'] = Play.objects.order_by('title')[::]
-        return context
-
-
-class PlayDetailView(generic.DetailView):
-
-    template_name = 'imago/play_details.html'
-    model = Play
 
 
 class SignUpView(CreateView):

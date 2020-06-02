@@ -1,3 +1,4 @@
+from datetime import date
 from django.db import models
 from django.urls import reverse
 from django.contrib.auth import get_user_model
@@ -28,7 +29,6 @@ class Member(AbstractUser):
     username = models.CharField(max_length=100, unique=True)
     description = models.TextField()
     isImago = models.BooleanField(default=False)
-    date_of_birth = models.DateTimeField(auto_now=False)
     email = models.EmailField(_('email address'), unique=True)
     facebook = models.URLField()
     instagram = models.URLField()
@@ -41,7 +41,7 @@ class Member(AbstractUser):
     def full_name(self):
         return "%s %s" % (self.first_name, self.last_name)
 
-    def __str__(self):
+    def __repr__(self):
         return self.username
     
     def save(self, *args, **kwargs):
@@ -56,13 +56,14 @@ class Member(AbstractUser):
 class Play(models.Model):
     title = models.CharField(max_length=200, unique=True)
     description = models.TextField()
+    cover = models.OneToOneField(Photo, on_delete=models.SET_NULL, null=True)
     gallery = models.OneToOneField(Gallery, on_delete=models.SET_NULL, null=True)
     members = models.ManyToManyField(get_user_model())
     awards = models.ManyToManyField(Award)
     venues = models.ManyToManyField(Venue)
     slug = models.SlugField(null=False, unique=True)
 
-    def __str__(self):
+    def __repr__(self):
         return self.title
 
     def get_absolute_url(self):
