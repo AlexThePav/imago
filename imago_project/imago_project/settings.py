@@ -29,7 +29,7 @@ SECRET_KEY = 'p5tp9g_+gzs8*lh5*_25((t-^*@$3@ksb(vya$h3d#izil+_l('
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = []
+ALLOWED_HOSTS = ['*']
 
 
 # Application definition
@@ -46,6 +46,7 @@ INSTALLED_APPS = [
     # Internal
     'imago',
     # Third Party
+    'corsheaders',
     'rest_framework',
     'photologue',
     'sortedm2m',
@@ -54,11 +55,12 @@ INSTALLED_APPS = [
 MIDDLEWARE = [
     'django.middleware.security.SecurityMiddleware',
     'django.contrib.sessions.middleware.SessionMiddleware',
+    'corsheaders.middleware.CorsMiddleware',
     'django.middleware.common.CommonMiddleware',
     'django.middleware.csrf.CsrfViewMiddleware',
     'django.contrib.auth.middleware.AuthenticationMiddleware',
     'django.contrib.messages.middleware.MessageMiddleware',
-    'django.middleware.clickjacking.XFrameOptionsMiddleware',
+    'django.middleware.clickjacking.XFrameOptionsMiddleware'
 ]
 
 ROOT_URLCONF = 'imago_project.urls'
@@ -91,6 +93,13 @@ DATABASES = {
         'NAME': os.path.join(BASE_DIR, 'db.sqlite3'),
     }
 }
+
+# CORS
+CORS_ORIGIN_ALLOW_ALL = True
+CORS_URLS_REGEX = r'^/api/.*$'
+CSRF_TRUSTED_ORIGINS = [
+    'localhost'
+]
 
 
 # Password validation
@@ -168,3 +177,4 @@ REST_FRAMEWORK = {
     ],
     'DEFAULT_RENDERER_CLASSES': DEFAULT_RENDERER_CLASSES
 }
+
