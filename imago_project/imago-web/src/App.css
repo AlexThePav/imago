@@ -13,20 +13,26 @@
   }
 }
 
-.App-header {
+.App-header, .App-main {
   background-color: #282c34;
-  min-height: 100vh;
   display: flex;
-  flex-direction: column;
-  align-items: center;
+  flex-direction: row;
   justify-content: flex-start;
   font-size: calc(10px + 2vmin);
   color: white;
 }
 
+.App-header {
+  min-height: 10vh;
+}
+
 .App-header>*:first-child {
   align-self: stretch;
   min-width: 100%;
+}
+
+.App-main {
+  min-height: 90vh;
 }
 
 .App-link {
@@ -40,4 +46,10 @@
   to {
     transform: rotate(360deg);
   }
+}
+
+#card-cover {
+  height: 40vmin;
+  width: 40vmin;
+  pointer-events: none;
 }

@@ -7,7 +7,7 @@ class PhotoSerializer(serializers.HyperlinkedModelSerializer):
 
     class Meta:
         model = Photo
-        fields = ['get_absolute_url']
+        fields = ['get_absolute_url', 'image_filename', 'cache_url']
 
 
 class GalleryListSerializer(serializers.HyperlinkedModelSerializer):

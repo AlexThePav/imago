@@ -1,47 +1,90 @@
 import React from 'react';
+import {Link} from 'react-router-dom';
 
-import Container from 'react-bootstrap/Container';
-import Nav from 'react-bootstrap/Nav';
-import Navbar from 'react-bootstrap/Navbar';
-import Form from 'react-bootstrap/Form';
-import FormControl from 'react-bootstrap/FormControl';
-import Button from 'react-bootstrap/Button';
+function NavItem (props) {
+    const href = props.href
+    const name = props.name
+
+    if (props.isLogo === true) {
+        return (
+            <a className="navbar-brand" href={href}>
+                <img src="/pixel-butterfly.jpg"
+                    width="50" 
+                    height="50" 
+                    alt="" 
+                    loading="lazy"/>
+            </a>
+        )
+    }
+
+    return (
+        <li className={props.className} onClick={props.onClick}>
+            <Link to={href} className="nav-link" >{name}</Link>
+        </li>
+    )
+}
+
 
 export class NavBar extends React.Component {
     constructor(props) {
         super(props);
         this.state = {
-            activeNav: "Home"
+            navs: [0, 1, 2, 3, 4],
+            activeNav: null,
+            navClassName: "nav-item",
         }
     }
 
-    render() {
-        return <Container className="fluid mx-0 px-0"> 
-            <Navbar bg="dark" variant="dark" expand="lg" className="fluid my-0">
-            <Navbar.Brand href="#home">
-            <img
-                src="/pixel-butterfly.jpg"
-                width="40"
-                height="40"
-                className="d-inline-block align-top"
-                alt="React Bootstrap logo"
+    handleClick(i) {
+        const navs = this.state.navs.slice();
+        this.setState({
+            activeNav: navs[i]
+        });
+    }
+
+    renderNav(i, name, href, isLogo) {
+        let navClassName = this.state.navClassName
+        if (href === window.location.pathname) {
+            navClassName = navClassName + " active"
+        }
+        return (
+            <NavItem 
+                name={name} 
+                href={href}
+                className={navClassName}
+                isActive={this.state.isNavActive}
+                isLogo={isLogo}
+                onClick={() => this.handleClick(i)}
             />
-            </Navbar.Brand>
-            <Navbar.Toggle aria-controls="responsive-navbar-nav" />
-            <Navbar.Collapse id="responsive-navbar-nav">
-            <Nav className="mr-auto">
-                <Nav.Link href="#plays">Plays</Nav.Link>
-                <Nav.Link href="#members">Members</Nav.Link>
-                <Nav.Link href="#contact">Contact</Nav.Link>
-                <Nav.Link href="#about">About</Nav.Link>
-            </Nav>
-            <Form inline>
-                <FormControl type="text" placeholder="Search" className=" mr-sm-2" />
-                <Button type="submit">Submit</Button>
-            </Form>
-            </Navbar.Collapse>
-        </Navbar>
-      </Container>
+        );
+    }
+
+    render() {
+        return (
+        <nav className="navbar navbar-expand-lg navbar-dark bg-dark">
+            {this.renderNav(0, "Home", "/", true)}
+            <button className="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarToggler" aria-controls="navbarToggler" aria-expanded="false" aria-label="Toggle navigation">
+                <span className="navbar-toggler-icon"></span>
+            </button>
+
+            <div className="collapse navbar-collapse" id="navbarToggler">
+                <ul className="navbar-nav mr-auto mt-2 mt-lg-0">
+                    {this.renderNav(1, "Plays", "/plays", false)}
+                    {this.renderNav(2, "Members", "/members", false)}
+                    {this.renderNav(3, "About", "/about", false)}
+                    {this.renderNav(4, "Contact", "/contact", false)}
+                </ul>
+                <div className="d-inline-flex">
+                <div className="input-group">
+                    <input type="text" className="form-control" placeholder="Search" aria-label="Recipient's username" aria-describedby="button-addon2"/>
+                    <div className="input-group-append">
+                        <button className="btn btn-outline-secondary" type="button" id="button-addon2">Search</button>
+                    </div>
+                </div>
+                </div>
+            </div>
+        </nav>
+        )
     }
     
 }

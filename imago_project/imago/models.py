@@ -5,7 +5,19 @@ from django.contrib.auth import get_user_model
 from django.contrib.auth.models import AbstractUser, BaseUserManager
 from django.template.defaultfilters import slugify
 from django.utils.translation import ugettext_lazy as _
-from photologue.models import Gallery, Photo
+from photologue.models import Gallery, Photo, ImageModel
+
+
+class PhotoExtended(models.Model):
+    
+    photo = models.OneToOneField(Photo, related_name='extended', on_delete=models.CASCADE)
+    
+    class Meta:
+        verbose_name = u'Extra fields'
+        verbose_name_plural = u'Extra fields'
+    
+    def __str__(self):
+        return self.photo.title
 
 
 class Venue(models.Model):
