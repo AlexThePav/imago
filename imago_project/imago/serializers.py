@@ -1,5 +1,5 @@
 from rest_framework import serializers
-from .models import Play, Member, Venue, Award,
+from .models import Play, Member, Venue, Award
 from photologue.models import  Photo, Gallery
 
 
