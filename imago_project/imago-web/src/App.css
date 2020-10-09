@@ -36,7 +36,7 @@
 }
 
 .App-link {
-  color: #61dafb;
+  color: #f1f1f1;
 }
 
 @keyframes App-logo-spin {
@@ -48,8 +48,22 @@
   }
 }
 
-#card-cover {
-  height: 40vmin;
+.card {
   width: 40vmin;
+}
+
+.card-cover {
   pointer-events: none;
+  height: 300px;
+  width: 100%;
+  object-fit: cover;
+  display: block;
+}
+
+.galleryListItem {
+  display: inline;
+}
+
+.galleryListItem > img {
+  height: 100px;
 }
