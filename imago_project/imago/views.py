@@ -14,7 +14,10 @@ from photologue.models import Photo, Gallery
 
 from .forms import MemberCreationForm, PlayCreationForm
 from .models import Award, Member, Play, Venue
-from .serializers import PlaysListSerializer, PlayDetailSerializer, MembersListSerializer, MemberDetailSerializer, AwardSerializer, VenueSerializer, PhotoSerializer, GalleryListSerializer, GalleryDetailSerializer
+from .serializers import (PlaysListSerializer, PlayDetailSerializer, 
+                            MembersListSerializer, MemberDetailSerializer, 
+                            AwardSerializer, VenueSerializer,
+                            GalleryDetailSerializer, GalleryListSerializer)
 
 @api_view(['GET'])
 def play_list_view(request, *args, **kwargs):
@@ -64,7 +67,7 @@ def venue_detail_view(request, slug, *args, **kwargs):
 @api_view(['GET'])
 def photo_list_view(request, *args, **kwargs):
     qs = Photo.objects.all()
-    serializer = PhotoSerializer(qs, many=True, context={'request':request})
+    serializer = ImageExtendedSerializer(qs, many=True, context={'request':request})
     return Response(serializer.data, status=200)
     
 @api_view(['GET'])

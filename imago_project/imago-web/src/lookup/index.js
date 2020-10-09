@@ -1,5 +1,7 @@
-import {loadPlays} from './components'
+import {loadListOrDetail, loadImage, loadCacheImage} from './components'
 
 export {
-    loadPlays
+    loadListOrDetail,
+    loadImage,
+    loadCacheImage
 }

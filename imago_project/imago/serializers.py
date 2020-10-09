@@ -1,31 +1,35 @@
 from rest_framework import serializers
-from .models import Play, Member, Venue, Award
-from photologue.models import Photo, Gallery
+from .models import Play, Member, Venue, Award,
+from photologue.models import  Photo, Gallery
 
 
-class PhotoSerializer(serializers.HyperlinkedModelSerializer):
+class ImageSerializer(serializers.HyperlinkedModelSerializer):
+
 
     class Meta:
         model = Photo
-        fields = ['get_absolute_url', 'image_filename', 'cache_url']
+        fields = ['image_filename', 'title']
+
+
 
 
 class GalleryListSerializer(serializers.HyperlinkedModelSerializer):
 
-    photos = PhotoSerializer(many=True)
+    photos = ImageSerializer(many=True)
 
     class Meta:
         model = Gallery
-        fields = ['slug', 'title', 'get_absolute_url']
+        fields = ['title',]
 
 
 class GalleryDetailSerializer(serializers.HyperlinkedModelSerializer):
 
-    photos = PhotoSerializer(many=True)
+    photos = ImageSerializer(many=True)
 
     class Meta:
         model = Gallery
-        fields = ['slug', 'title', 'get_absolute_url', 'photos']
+        fields = ['title', 'photos']
+
 
 class VenueSerializer(serializers.HyperlinkedModelSerializer):
 
@@ -45,7 +49,7 @@ class MembersListSerializer(serializers.HyperlinkedModelSerializer):
 
     class Meta:
         model = Member
-        fields = ['slug', 'full_name']
+        fields = ['slug', 'get_profile_pic', 'full_name']
 
 
 class MemberDetailSerializer(serializers.HyperlinkedModelSerializer):
@@ -58,11 +62,10 @@ class MemberDetailSerializer(serializers.HyperlinkedModelSerializer):
 
 
 class PlaysListSerializer(serializers.HyperlinkedModelSerializer):
-    cover = PhotoSerializer()
 
     class Meta:
         model = Play
-        fields = ['slug', 'cover', 'title', 'description']
+        fields = ['slug', 'get_cover', 'title', 'description']
     
 
 class PlayDetailSerializer(serializers.HyperlinkedModelSerializer):
@@ -71,9 +74,8 @@ class PlayDetailSerializer(serializers.HyperlinkedModelSerializer):
     venues = VenueSerializer(many=True)
     awards = AwardSerializer(many=True)
     gallery = GalleryDetailSerializer()
-    cover = PhotoSerializer()
 
     class Meta:
         model = Play
-        fields = ['slug', 'cover', 'title', 'description', 'members', 'venues', 'awards', 'gallery'] # to be completed
+        fields = ['slug', 'get_cover', 'gallery', 'title', 'description', 'members', 'venues', 'awards'] # to be completed
 

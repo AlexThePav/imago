@@ -1,5 +1,5 @@
 import React from 'react';
-import {Link} from 'react-router-dom';
+import {NavLink} from 'react-router-dom';
 
 function NavItem (props) {
     const href = props.href
@@ -19,7 +19,7 @@ function NavItem (props) {
 
     return (
         <li className={props.className} onClick={props.onClick}>
-            <Link to={href} className="nav-link" >{name}</Link>
+            <NavLink activeClassName="active" to={href} className="nav-link" >{name}</NavLink>
         </li>
     )
 }
@@ -35,18 +35,8 @@ export class NavBar extends React.Component {
         }
     }
 
-    handleClick(i) {
-        const navs = this.state.navs.slice();
-        this.setState({
-            activeNav: navs[i]
-        });
-    }
-
-    renderNav(i, name, href, isLogo) {
+    renderNav(name, href, isLogo) {
         let navClassName = this.state.navClassName
-        if (href === window.location.pathname) {
-            navClassName = navClassName + " active"
-        }
         return (
             <NavItem 
                 name={name} 
@@ -54,7 +44,6 @@ export class NavBar extends React.Component {
                 className={navClassName}
                 isActive={this.state.isNavActive}
                 isLogo={isLogo}
-                onClick={() => this.handleClick(i)}
             />
         );
     }
@@ -62,17 +51,17 @@ export class NavBar extends React.Component {
     render() {
         return (
         <nav className="navbar navbar-expand-lg navbar-dark bg-dark">
-            {this.renderNav(0, "Home", "/", true)}
+            {this.renderNav("Home", "/", true)}
             <button className="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarToggler" aria-controls="navbarToggler" aria-expanded="false" aria-label="Toggle navigation">
                 <span className="navbar-toggler-icon"></span>
             </button>
 
             <div className="collapse navbar-collapse" id="navbarToggler">
                 <ul className="navbar-nav mr-auto mt-2 mt-lg-0">
-                    {this.renderNav(1, "Plays", "/plays", false)}
-                    {this.renderNav(2, "Members", "/members", false)}
-                    {this.renderNav(3, "About", "/about", false)}
-                    {this.renderNav(4, "Contact", "/contact", false)}
+                    {this.renderNav("Plays", "/plays", false)}
+                    {this.renderNav("Members", "/members", false)}
+                    {this.renderNav("About", "/about", false)}
+                    {this.renderNav("Contact", "/contact", false)}
                 </ul>
                 <div className="d-inline-flex">
                 <div className="input-group">

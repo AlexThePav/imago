@@ -148,8 +148,9 @@ STATIC_ROOT = os.path.join(BASE_DIR, 'staticfiles')
 
 # Media files
 
-MEDIA_URL = '/media/'
+MEDIA_URL = 'media/'
 MEDIA_ROOT = os.path.join(BASE_DIR, 'media')
+COVERS_DIR = os.path.join(MEDIA_ROOT, 'covers')
 
 # Custom user model
 AUTH_USER_MODEL = 'imago.Member'

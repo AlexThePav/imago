@@ -1,5 +1,6 @@
-import {PlayList} from './components'
+import {PlayList, PlayDetail} from './components'
 
 export {
-    PlayList
+    PlayList,
+    PlayDetail
 }
