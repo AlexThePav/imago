@@ -1,21 +1,44 @@
+import os
 from rest_framework import serializers
 from .models import Play, Member, Venue, Award
 from photologue.models import  Photo, Gallery
 
 
-class ImageSerializer(serializers.HyperlinkedModelSerializer):
+class ImageGenSerializer(serializers.Serializer):
+    title = serializers.CharField(max_length=250)
+    slug = serializers.SlugField(max_length=250)
+    thumbnail = serializers.SerializerMethodField()
+    display = serializers.SerializerMethodField()
 
-
-    class Meta:
-        model = Photo
-        fields = ['image_filename', 'title']
-
-
+    def create(self, validated_data):
+        """
+        Create and return a new `Photo` instance, given the validated data.
+        """
+        return Photo.objects.create(**validated_data)
+    
+    def update(self, instance, validated_data):
+        """
+        Update and return an existing `Photo` instance, given the validated data.
+        """
+        instance.title = validated_data.get('title', instance.title)
+        instance.slug = validated_data.get('slug', instance.slug)
+    
+    def get_thumbnail(self, obj):
+        filename = obj.image_filename()
+        file_extension = os.path.splitext(filename)[1]
+        file_noext = os.path.splitext(filename)[0]
+        return file_noext + "_thumbnail" + file_extension
+    
+    def get_display(self, obj):
+        filename = obj.image_filename()
+        file_extension = os.path.splitext(filename)[1]
+        file_noext = os.path.splitext(filename)[0]
+        return file_noext + "_display" + file_extension
 
 
 class GalleryListSerializer(serializers.HyperlinkedModelSerializer):
 
-    photos = ImageSerializer(many=True)
+    photos = ImageGenSerializer(many=True)
 
     class Meta:
         model = Gallery
@@ -24,7 +47,7 @@ class GalleryListSerializer(serializers.HyperlinkedModelSerializer):
 
 class GalleryDetailSerializer(serializers.HyperlinkedModelSerializer):
 
-    photos = ImageSerializer(many=True)
+    photos = ImageGenSerializer(many=True)
 
     class Meta:
         model = Gallery

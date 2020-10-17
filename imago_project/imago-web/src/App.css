@@ -67,3 +67,12 @@
 .galleryListItem > img {
   height: 100px;
 }
+
+.displayCover {
+  width: 45vmin;
+}
+
+.displayCover > img {
+  width: 100%;
+  object-fit: cover;
+}

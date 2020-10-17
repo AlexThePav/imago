@@ -1,6 +1,7 @@
 import React, {useEffect, useState} from 'react';
 import {Link} from 'react-router-dom';
 import {loadListOrDetail, loadImage, loadCacheImage} from '../lookup';
+import { MemberList } from '../members/components';
 
 
 function PlayListItem(props) {
@@ -60,8 +61,8 @@ export function PlayList() {
 
 function GalleryListItem(props) {
     // const img_url = props.image.cache_url + "/" + props.image.image_filename
-    const file = props.image.image_filename
-    const image_url = loadCacheImage(file, "thumbnail")
+    const file = props.image.thumbnail
+    const image_url = loadCacheImage(file)
     return (
         <div className="galleryListItem">
             <img src={image_url} alt="Play gallery img"/>
@@ -73,16 +74,23 @@ function GalleryListItem(props) {
 function GalleryList(props) {
     const galleryItems = props.galleryList.photos
     return galleryItems.map((item, index)=>{
-        return (
-        <GalleryListItem image={item} key={`${index}`} />
-        )
+        if (item) {
+            return (
+                <GalleryListItem image={item} key={`${index}`} />
+                )
+        } else {
+            return (
+                <div className="spinner-border text-danger" role="status">
+                    <span className="sr-only">Loading...</span>
+                </div>
+            )
+        }
+        
     })
 }
 
 export function PlayDetail({ match }) {
-    const slug = match.params.slug;
     const [play, setPlay] = useState()
-
     useEffect(() => {
         const myCallback = (response, status) => {
             if (status === 200) {
@@ -96,24 +104,42 @@ export function PlayDetail({ match }) {
         // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [])
 
+    const slug = match.params.slug;
+
+
 
     if (play) {
+        const cover_url = loadImage(play.get_cover)
         return  (
-            <div>
+            <div className="container-fluid">
                 <h1>{play.title}</h1>
-                <p>{play.description}</p>
-                {play.gallery ? (
-                    <>
-                    <div className="gallery">
-                        <GalleryList galleryList={play.gallery} /> 
+                <div className="row">
+                    <div className="col-sm displayCover">
+                        <img src={cover_url} alt="Play cover"/>
                     </div>
-                    </>
-                ):(
-                    <></>
-                )}
+                    <div className="col-9">
+                        <p>{play.description}</p>
+                    </div>
+                </div>
+                <h2>Members</h2>
+                <MemberList members={play.members}/>
+                {play.gallery ? (
+                            <>
+                            <h2>Gallery</h2>
+                            <div className="gallery">
+                                <GalleryList galleryList={play.gallery} /> 
+                            </div>
+                            </>
+                        ):(
+                            <></>
+                        )}
             </div>
     )
     }   else {
-        return <p>Loading...</p>
+        return (
+            <div className="spinner-border text-danger" role="status">
+                <span className="sr-only">Loading...</span>
+            </div>
+        )
     }
 }

@@ -30,20 +30,6 @@ export function loadImage(image_url) {
     return url
 }
 
-export function loadCacheImage(image_filename, image_size) {
-    let url = "http://localhost:8000/media/photologue/photos/cache"
-    let extension
-    let filename_noext
-    let full_image_name
-    if (image_filename) {
-        filename_noext = image_filename.split(".")[0]
-        extension = image_filename.split(".")[1]
-        full_image_name = filename_noext + "_" + image_size + "." + extension
-        url = url + "/" + full_image_name
-    } else {
-        url = "no image"
-    }
-    return url
-
-
+export function loadCacheImage(image_filename) {
+    return "http://localhost:8000/media/photologue/photos/cache/" + image_filename
 }
