@@ -8,7 +8,8 @@ function MemberListItem(props) {
     const className = props.className ? props.className : 'card'
     const profile_pic = loadImage(member.get_profile_pic)
     return (
-    <Link to={`members/${member.slug}`}>
+    // <Link to={`members/${member.slug}`}>
+    <Link to={location => ({ ...location, pathname: `/members/${member.slug}`})}>
         <div className={className}>
             <img src={profile_pic} className="card-img-top card-cover" alt="Profile pic" />
             <div className="card-body">
@@ -19,19 +20,24 @@ function MemberListItem(props) {
     )
 }
 
-export function MemberList() {
+export function MemberList(props) {
     const [members, setMembers] = useState([])
-
     useEffect(() => {
-    const memberCallBack = (response, status) => {
-        if (status === 200) {
-            setMembers(response)
+        if (!props.members) {
+            const memberCallBack = (response, status) => {
+                if (status === 200) {
+                    setMembers(response)
+                } else {
+                    alert("There was an error")
+                }
+            }
+            loadListOrDetail(memberCallBack, "members")
         } else {
-            alert("There was an error")
+            setMembers(props.members)
         }
-    }
-    loadListOrDetail(memberCallBack, "members")
-    }, [])
+        }, [props.members])
+   
+    
 
     return members.map((item, index)=>{
     return <MemberListItem member={item} key={`${index}-${item.slug}`} className='card text-white bg-dark my-2 mx-2' />
@@ -62,6 +68,10 @@ export function MemberDetail({ match }) {
             </div>
     )
     }   else {
-        return <p>Loading...</p>
+        return (
+            <div className="spinner-border text-danger" role="status">
+                <span className="sr-only">Loading...</span>
+            </div>
+        )
     }
 }
