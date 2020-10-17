@@ -21,7 +21,7 @@ export function loadListOrDetail(callback, page, slug) {
 }
 
 export function loadImage(image_url) {
-    let url = "http://localhost:8000/"
+    let url = "http://localhost:8000"
     if (image_url) {
         url = url + image_url
     } else {
