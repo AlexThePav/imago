@@ -5,5 +5,5 @@ In imago-web
 ```
 sudo apt get install npm
 npm install react-scripts
-npm-run
+npm run
 ```
