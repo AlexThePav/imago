@@ -35,6 +35,9 @@ urlpatterns = [
 ] + static(settings.STATIC_URL, document_root=settings.STATIC_ROOT)
 
 urlpatterns += [
+    # REST api urls
+    path('api/', include('imago.api.urls', namespace='imago-api')),
+    # Photologue urls
     path('photologue/', include('photologue.urls', namespace='photologue')),
 ]
 
