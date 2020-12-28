@@ -1,80 +1,11 @@
-from django import template
-from django.http import request, HttpResponseForbidden, HttpResponseRedirect
+from django.http import HttpResponseForbidden
 from django.urls import reverse_lazy
 from django.views import generic
 from django.views.generic.edit import CreateView, UpdateView
-from django.shortcuts import render, reverse
-from django.forms import modelformset_factory
-from django.contrib import messages
-
-from rest_framework.decorators import api_view, authentication_classes, permission_classes
-from rest_framework.response import Response
-
-from photologue.models import Photo, Gallery
+from django.shortcuts import render
 
 from .forms import MemberCreationForm, PlayCreationForm
-from .models import Award, Member, Play, Venue
-from .serializers import (PlaysListSerializer, PlayDetailSerializer, 
-                            MembersListSerializer, MemberDetailSerializer, 
-                            VenueSerializer,
-                            ImageGenSerializer, GalleryListSerializer)
-
-@api_view(['GET'])
-def play_list_view(request, *args, **kwargs):
-    qs = Play.objects.all()
-    serializer = PlaysListSerializer(qs, many=True, context={'request':request})
-    return Response(serializer.data, status=200)
-
-@api_view(['GET'])
-def play_detail_view(request, slug, *args, **kwargs):
-    qs = Play.objects.filter(slug=slug)
-    if not qs.exists():
-        return Response({}, status=404)
-    obj = qs.first()
-    serializer = PlayDetailSerializer(obj, context={'request':request})
-    return Response(serializer.data, status=200)
-
-@api_view(['GET'])
-def member_list_view(request, *args, **kwargs):
-    qs = Member.objects.all()
-    serializer = MembersListSerializer(qs, many=True, context={'request':request})
-    return Response(serializer.data, status=200)
-
-@api_view(['GET'])
-def member_detail_view(request, slug, *args, **kwargs):
-    qs = Member.objects.filter(slug=slug)
-    if not qs.exists():
-        return Response({}, status=404)
-    obj = qs.first()
-    serializer = MemberDetailSerializer(obj, context={'request':request})
-    return Response(serializer.data, status=200)
-
-@api_view(['GET'])
-def venue_list_view(request, *args, **kwargs):
-    qs = Venue.objects.all()
-    serializer = VenueSerializer(qs, many=True, context={'request':request})
-    return Response(serializer.data, status=200)
-
-@api_view(['GET'])
-def venue_detail_view(request, slug, *args, **kwargs):
-    qs = Venue.objects.filter(slug=slug)
-    if not qs.exists():
-        return Response({}, status=404)
-    obj = qs.first()
-    serializer = VenueSerializer(obj, context={'request':request})
-    return Response(serializer.data, status=200)
-
-@api_view(['GET'])
-def photo_list_view(request, *args, **kwargs):
-    qs = Photo.objects.all()
-    serializer = ImageGenSerializer(qs, many=True, context={'request':request})
-    return Response(serializer.data, status=200)
-    
-@api_view(['GET'])
-def gallery_list_view(request, *args, **kwargs):
-    qs = Gallery.objects.all()
-    serializer = GalleryListSerializer(qs, many=True, context={'request':request})
-    return Response(serializer.data, status=200)
+from .models import Play
 
 # index will become generic.ListView
 class IndexView(generic.TemplateView):
