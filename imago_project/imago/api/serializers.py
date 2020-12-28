@@ -76,7 +76,6 @@ class MembersListSerializer(serializers.HyperlinkedModelSerializer):
 
 
 class MemberDetailSerializer(serializers.HyperlinkedModelSerializer):
-
     awards = AwardSerializer(many=True)
 
     class Meta:
@@ -100,5 +99,6 @@ class PlayDetailSerializer(serializers.HyperlinkedModelSerializer):
 
     class Meta:
         model = Play
-        fields = ['slug', 'get_cover', 'gallery', 'title', 'description', 'members', 'venues', 'awards'] # to be completed
+        fields = ['slug', 'get_cover', 'gallery', 'title', 
+                    'description', 'members', 'venues', 'awards']
 
