@@ -106,8 +106,6 @@ export function PlayDetail({ match }) {
 
     const slug = match.params.slug;
 
-
-
     if (play) {
         const cover_url = loadImage(play.get_cover)
         return  (

@@ -62,6 +62,7 @@ export class NavBar extends React.Component {
                     {this.renderNav("Members", "/members", false)}
                     {this.renderNav("About", "/about", false)}
                     {this.renderNav("Contact", "/contact", false)}
+                    {this.renderNav("Admin", "/admin", false)}
                 </ul>
                 <div className="d-inline-flex">
                 <div className="input-group">
