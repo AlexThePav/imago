@@ -1,7 +1,7 @@
 import React from 'react';
 import './App.css';
 
-import {Home, About, Contact, Plays, Members} from './pages';
+import {Home, About, Contact, Plays, Members, Admin} from './pages';
 
 import { NavBar } from './navbar';
 import { BrowserRouter, Route, Switch } from 'react-router-dom';
@@ -20,6 +20,7 @@ function App() {
             <Route path="/contact" component={Contact}/>
             <Route path="/plays" component={Plays}/>
             <Route path="/members" component={Members}/>
+            <Route path="/admin" component={Admin}/>
           </Switch>
         </main>
       </div>

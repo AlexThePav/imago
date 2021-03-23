@@ -22,6 +22,8 @@ class ImageGenSerializer(serializers.Serializer):
         """
         instance.title = validated_data.get('title', instance.title)
         instance.slug = validated_data.get('slug', instance.slug)
+        instance.save()
+        return instance
     
     def get_thumbnail(self, obj):
         filename = obj.image_filename()
