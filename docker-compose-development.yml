@@ -1,0 +1,38 @@
+version: "3.8"
+services:
+    web:
+        container_name: "dev_imago_web"
+        build:
+            context: ./client
+            dockerfile: Dockerfile
+        volumes:
+            - ./client:/app
+            - /app/node_modules
+        ports:
+            - 3001:3000
+        environment:
+            - CHOKIDAR_USEPOLLING=true
+        stdin_open: true
+    db:
+        image: postgres:13-alpine
+        container_name: "imago_db"
+        ports:
+            - "54322:5432"
+        volumes:
+            - imago_db:/var/lib/postgresql/data/
+    api:
+        container_name: "dev_imago_api"
+        build: 
+            context: ./server
+            dockerfile: Dockerfile
+        volumes:
+            - ./server:/app
+        ports:
+            - "8000:8000"
+        depends_on: 
+            - db
+        command: bash -c "python3 manage.py makemigrations && python3 manage.py migrate && python3 manage.py runserver 0.0.0.0:8000 --settings imago_project.settings"
+volumes:
+    imago_db:
+    data01:
+        driver: local

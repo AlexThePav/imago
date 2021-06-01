@@ -1,0 +1,36 @@
+version: "3.8"
+
+services:
+  web:
+    container_name: web
+    build:
+        context: ./client
+        dockerfile: Dockerfile.prod
+    ports:
+      - '1337:80'
+  api:
+    build:
+        context: ./server
+    ports:
+        - "8000:8000"
+    volumes:
+        - ./server:/imago
+    command: >
+        sh -c "python manage.py runserver 0.0.0.0:8000"
+    environment:
+        - DB_HOST=db
+        - DB_NAME=imago_app_db
+        - DB_USER=postgres
+        - DB_PASS=supersecretpassword
+    depends_on:
+        - db
+
+  db:
+    image: postgres:13.2-alpine
+    container_name: "imago_db"
+    environment:
+        - POSTGRES_DB=imago_app_db
+        - POSTGRES_USER=postgres
+        - POSTGRES_PASSWORD=supersecretpassword
+    ports:
+        - "54322:5432"
